@@ -1,28 +1,46 @@
-import classes from './Welcome.module.css';
-
 import '@mantine/core/styles.css';
 
-import { Anchor, MantineProvider, Text, Title } from '@mantine/core';
+import { AppShell, Container, MantineProvider } from '@mantine/core';
+import { Header } from './components/header/Header';
+import { ImmoCard } from './components/core/ImmoCard';
+/*
+let headerButtons = [
+  {title : 'Products',
+    type : 'default',
+    action : ''
+  },{title : 'Sign in',
+    type : 'default',
+    action : ''
+  },{title : 'Register',
+    type : 'default',
+    action : ''
+  }
+]
+*/
 
-
+/*
+let datas = {
+  title: 'Mon Titre',
+  buttonProducts: 'Products',
+  buttonSignIn: 'Sign in',
+  buttonRegister: 'Register'
+}
+*/
 function App() {
 
   return (
     <MantineProvider>
-      <Title className={classes.title} ta="center" mt={100}>
-        Welcome to{' '}
-        <Text inherit variant="gradient" component="span" gradient={{ from: 'pink', to: 'yellow' }}>
-          Mantine
-        </Text>
-      </Title>
-      <Text c="dimmed" ta="center" size="lg" maw={580} mx="auto" mt="xl">
-        This starter Vite project includes a minimal setup, if you want to learn more on Mantine +
-        Vite integration follow{' '}
-        <Anchor href="https://mantine.dev/guides/vite/" size="lg">
-          this guide
-        </Anchor>
-        . To get started edit pages/Home.page.tsx file.
-      </Text>
+      <Container>
+            <AppShell
+            header={{ height: 60 }}
+            navbar={{ width: 300, breakpoint: 'sm' }}
+            padding="md"
+          >
+
+      <Header />
+      <ImmoCard id={'67019a2195b33fac480963b2'} />
+          </AppShell>
+          </Container>
     </MantineProvider>
   )
 }
