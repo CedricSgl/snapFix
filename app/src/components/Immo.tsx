@@ -1,18 +1,16 @@
-import { Card, Grid, Image } from "@mantine/core";
+import { Grid, Image } from "@mantine/core";
 import { Description } from "./Description";
 
 export function Immo() {
     return (
         <Grid>
               <Grid.Col span={6}>
-                <Card shadow="sm" padding="lg">
-                  <Image
-                    src="https://via.placeholder.com/300x200"
-                    alt="Product"
-                    height={200}
-                    fit="contain"
-                  />
-                </Card>
+                <Image
+                src="https://via.placeholder.com/500x200"
+                alt="Product"
+                height={200}
+                fit="initial"
+                />
               </Grid.Col>
 
               <Grid.Col span={6}>
