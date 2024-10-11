@@ -61,28 +61,28 @@ export function ImmoCard({id} :ImmoId){
     }
     if(error){
         return (
-            <AppShell.Main style={{ padding: '4rem' }}>
-                
+            <>    
                 <Paper p="md" withBorder color="red">
                     <Text>{error}</Text>
                 </Paper>
-            </AppShell.Main>
+            </>
         );
     }
 
     if (!property) {
         return (
-            <AppShell.Main style={{ padding: '4rem' }}>
+            <>
                 <Text>No property data available.</Text>
-            </AppShell.Main>
+                </>
         );
     }
     
     return(
-        <AppShell.Main style={{ padding: '4rem' }}>
+        <>
             <Grid>
                 <GridCol span={6}>
                     <Image
+                        radius="md"
                         src="https://via.placeholder.com/500x200"
                         alt="Product"
                         height={200}
@@ -99,9 +99,6 @@ export function ImmoCard({id} :ImmoId){
                     <Text>{property.description}</Text>
                 </GridCol>
             </Grid>
-            <Paper p="xl" withBorder>
-                {/* Ajoutez d'autres détails de la propriété ici */}
-            </Paper>
-        </AppShell.Main>
+        </>
         )
 }

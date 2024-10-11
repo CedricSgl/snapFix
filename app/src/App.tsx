@@ -37,6 +37,9 @@ function App() {
         <Route path="/" element={<OneColumnLayout/>}>
           <Route path="/product/:id" element={<Product/>}/>
         </Route>
+        <Route path="/" element={<OneColumnLayout/>}>
+          <Route path="/prod" element={<Product/>}/>
+        </Route>
       </Routes>
     </BrowserRouter>
   )
