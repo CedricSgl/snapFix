@@ -1,12 +1,11 @@
 {
   "name": "server",
   "version": "1.0.0",
-  "type": "module",
-  "main": "server.js",
+  "main": "server.mjs",
   "scripts": {
-    "start" : "node server.js",
-    "dev" : "node --env-file=config.env server.js",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "nodemon server.ts",
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "type-check": "tsc"
   },
   "keywords": [],
   "author": "",
@@ -16,5 +15,13 @@
     "cors": "^2.8.5",
     "express": "^4.21.0",
     "mongodb": "^6.9.0"
+  },
+  "devDependencies": {
+    "@types/cors": "^2.8.17",
+    "@types/express": "^4.17.21",
+    "nodemon": "^3.1.4",
+    "ts-node": "^10.9.2",
+    "tsx": "^4.19.1",
+    "typescript": "^5.6.3"
   }
 }

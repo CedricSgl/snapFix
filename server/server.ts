@@ -1,8 +1,10 @@
 import express from "express";
 import cors from "cors";
-import records from "./routes/record.js";
+import records from "./routes/record";
+import { connectToDb } from "./db/connection";
 
-const PORT = process.env.PORT ||5050;
+const PORT = Number(process.env.PORT) || 5050;
+// const PORT =  8080;
 const HOST = 'localhost'
 const app = express();
 
@@ -10,13 +12,20 @@ app.use(cors());
 app.use(express.json());
 app.use("/record", records);
 
-app.listen(PORT, HOST, (err) => {
-    if(err){
-        console.error('Erreur lors du démarrage du serveur : ', err);
-        return;
-    }
-    console.log(`Server listening on http://${HOST} :  ${PORT}`)
+connectToDb().then(() => {
+  app.listen(PORT, HOST, () => {
+    console.log(`Server listening on : ${PORT}`)
+  }).on('error', (error) => {
+    console.error('Erreur lors du démarrage du serveur ! ');
+    throw new Error(error.message)
+  })
+  
+}).catch((error: Error) => {
+  console.log("Db Con Failed", error)
+  process.exit();
 });
+
+
 /*
 import express from 'express';
 import cors from 'cors';

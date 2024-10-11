@@ -2,7 +2,7 @@ import axios from "axios";
 
 
 // TODO TO MOVE :
-const API_URL = 'http://localhost:8080/record';
+const API_URL = 'http://localhost:5050/record';
 
 export const getAllImmoProperties = async () => {
     try {

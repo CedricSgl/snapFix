@@ -1,5 +1,5 @@
 
-import { Anchor, AppShell, Box, Button, Center, Container, Divider, Group, HoverCard, MantineProvider, SimpleGrid, Text, Title } from '@mantine/core';
+import { Anchor, AppShell,  Box,  Button, Center, Container, Divider, Group, HoverCard, MantineProvider, SimpleGrid, Text, Title } from '@mantine/core';
 
 export function Header() {
     let datas = {
@@ -13,7 +13,7 @@ export function Header() {
 
         <AppShell.Header>
             <Center>
-                <Box>
+                <Group>
                     <Group></Group>
                     <Group justify='flex-en d'>
                         <Anchor>abc</Anchor>
@@ -24,7 +24,7 @@ export function Header() {
                         <Button variant="default">{datas.buttonSignIn}</Button>
                         <Button variant="filled">{datas.buttonRegister}</Button>
                     </Group>
-                </Box>
+                </Group>
 
             </Center>
         </AppShell.Header>
