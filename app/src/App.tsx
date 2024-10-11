@@ -1,8 +1,11 @@
 import '@mantine/core/styles.css';
 
-import { AppShell, Container, MantineProvider } from '@mantine/core';
-import { Header } from './components/header/Header';
-import { ImmoCard } from './components/core/ImmoCard';
+import { BrowserRouter, Route, Routes } from "react-router-dom";
+import { OneColumnLayout } from './layout/OneColumnLayout';
+import Product from './pages/Product';
+// import { AppShell, Container, MantineProvider } from '@mantine/core';
+// import { Header } from './components/header/Header';
+// import { ImmoCard } from './components/core/ImmoCard';
 /*
 let headerButtons = [
   {title : 'Products',
@@ -29,19 +32,13 @@ let datas = {
 function App() {
 
   return (
-    <MantineProvider>
-      <Container>
-            <AppShell
-            header={{ height: 60 }}
-            navbar={{ width: 300, breakpoint: 'sm' }}
-            padding="md"
-          >
-
-      <Header />
-      <ImmoCard id={'67019a2195b33fac480963b2'} />
-          </AppShell>
-          </Container>
-    </MantineProvider>
+    <BrowserRouter>
+      <Routes>
+        <Route path="/" element={<OneColumnLayout/>}>
+          <Route path="/product/:id" element={<Product/>}/>
+        </Route>
+      </Routes>
+    </BrowserRouter>
   )
 }
 

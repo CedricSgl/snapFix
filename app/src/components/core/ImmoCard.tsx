@@ -1,4 +1,4 @@
-import { AppShell, Loader, Paper, Text } from "@mantine/core";
+import { AppShell, Loader, Paper, Text, Image, Grid, GridCol, Title } from "@mantine/core";
 import { FC, useEffect, useState } from "react";
 import { getAllImmoProperties, getImmoPropertiesById } from "../../services/api";
 import { ImmoId, ImmoProperty } from "../../types/immo";
@@ -31,6 +31,7 @@ export const AllImmoCard: FC = () => {
 
 
 export function ImmoCard({id} :ImmoId){
+    console.log(id)
     const [property, setProperty] = useState<ImmoProperty | null>(null);
     const [error, setError] = useState<string | null>(null);
     const [loading, setLoading] = useState<boolean>(true);
@@ -60,7 +61,8 @@ export function ImmoCard({id} :ImmoId){
     }
     if(error){
         return (
-            <AppShell.Main style={{ padding: '2rem' }}>
+            <AppShell.Main style={{ padding: '4rem' }}>
+                
                 <Paper p="md" withBorder color="red">
                     <Text>{error}</Text>
                 </Paper>
@@ -70,18 +72,34 @@ export function ImmoCard({id} :ImmoId){
 
     if (!property) {
         return (
-            <AppShell.Main style={{ padding: '2rem' }}>
+            <AppShell.Main style={{ padding: '4rem' }}>
                 <Text>No property data available.</Text>
             </AppShell.Main>
         );
     }
     
     return(
-        <AppShell.Main style={{ padding: '2rem' }}>
+        <AppShell.Main style={{ padding: '4rem' }}>
+            <Grid>
+                <GridCol span={6}>
+                    <Image
+                        src="https://via.placeholder.com/500x200"
+                        alt="Product"
+                        height={200}
+                        fit="initial"
+                        />
+                </GridCol>
+                <GridCol span={6}>
+                    <Text size="xl">{property.title}</Text>
+
+                    {/* <Text size="xl">{property.title}</Text> */}
+                    {/* <Text>ID: {property._id}</Text> */}
+                    <Title>{property.price} €</Title>
+                    {/* <Text>Price: {property.price} €</Text> */}
+                    <Text>{property.description}</Text>
+                </GridCol>
+            </Grid>
             <Paper p="xl" withBorder>
-                <Text size="xl">{property.title}</Text>
-                <Text>ID: {property._id}</Text>
-                <Text>Price: {property.price} €</Text>
                 {/* Ajoutez d'autres détails de la propriété ici */}
             </Paper>
         </AppShell.Main>

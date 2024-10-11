@@ -1,5 +1,6 @@
 
-import { Anchor, AppShell,  Box,  Button, Center, Container, Divider, Group, HoverCard, MantineProvider, SimpleGrid, Text, Title } from '@mantine/core';
+import { Anchor, Button, Group, Text, Title, Image } from '@mantine/core';
+import logo from "../../assets/react.svg"
 
 export function Header() {
     let datas = {
@@ -8,26 +9,22 @@ export function Header() {
         buttonSignIn: 'Sign in',
         buttonRegister: 'Register'
     }
+    let links = [{title : "Accueil", href : "/"},{title : "Immos", href : "/"}]
+
     return (
-
-
-        <AppShell.Header>
-            <Center>
-                <Group>
-                    <Group></Group>
+                <Group justify='space-between' align='center' style={{margin: "0px 10px", height: "100%"}}>
+                    <Group><Image src={logo} style={{flex:"0 0 55px", padding:"10px"}}/></Group>
                     <Group justify='flex-en d'>
-                        <Anchor>abc</Anchor>
                     </Group>
-                    <Group justify='flex-end'>
-
+                    <Group mih={50} gap="xs" justify="flex-end" align="center" wrap="wrap">
+                        {links.map((value, index) => {
+                            return(<Anchor key={index} href={value.href}>{value.title}</Anchor>)
+                        })}
+                        <Anchor>Where is the map ?</Anchor>
                         <Button variant="default">{datas.buttonProducts}</Button>
                         <Button variant="default">{datas.buttonSignIn}</Button>
                         <Button variant="filled">{datas.buttonRegister}</Button>
                     </Group>
                 </Group>
-
-            </Center>
-        </AppShell.Header>
-
     )
 }
