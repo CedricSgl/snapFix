@@ -18,7 +18,7 @@ router.post("/",
         }
 
         const newsletterField: TNewsletterForm = {
-            email: req.body
+            email: req.body.email
         }
 
         try {

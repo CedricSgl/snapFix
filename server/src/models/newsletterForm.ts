@@ -6,7 +6,7 @@ export type TNewsletterForm = {
 
 export interface INewsletterForm extends TNewsletterForm, Document {}
 
-const newsletterFormSchema : Schema = new Schema({
+const newsletterForm : Schema = new Schema({
     email: {
         type: String,
         required:true,
@@ -14,6 +14,6 @@ const newsletterFormSchema : Schema = new Schema({
     }
 })
 
-const NewsletterForm = model<INewsletterForm>("NewsletterForm", newsletterFormSchema);
+const NewsletterForm = model<INewsletterForm>("newsletterForm", newsletterForm);
 
 export default NewsletterForm;

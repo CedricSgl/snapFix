@@ -1,6 +1,7 @@
 import express, { Request, Response } from "express";
 import { connectDB } from "./config/database";
 import bodyParser from "body-parser";
+import newsletterForm from "./routes/newsletterForm";
 
 const app = express();
 
@@ -17,6 +18,8 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.get("/", (_req, res) => {
     res.send("API Running");
 });
+
+app.use("/newsletterForm", newsletterForm);
 
 const port = app.get("port");
 export const server = app.listen(port, () =>
