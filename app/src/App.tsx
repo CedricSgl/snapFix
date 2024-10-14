@@ -1,4 +1,5 @@
 import "@mantine/core/styles.css";
+import '@mantine/notifications/styles.css';
 
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import Product from "./pages/Product";
