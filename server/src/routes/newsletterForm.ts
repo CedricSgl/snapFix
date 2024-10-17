@@ -4,6 +4,7 @@ import Request from "../types/Request";
 import { check, validationResult } from "express-validator";
 import HttpStatusCodes from "http-status-codes";
 import NewsletterForm, { TNewsletterForm } from "../models/newsletterForm";
+import { saveNewsletterForm } from "../services/newsletterForm";
 
 const router: Router = Router();
 
@@ -22,9 +23,7 @@ router.post("/",
         }
 
         try {
-            const newsletterForm = new NewsletterForm(newsletterField);
-
-            await newsletterForm.save()
+            const newsletterForm = saveNewsletterForm(newsletterField)
 
             res.json(newsletterForm);
 
