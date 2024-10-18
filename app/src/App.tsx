@@ -3,6 +3,7 @@ import '@mantine/core/styles.css';
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import { OneColumnLayout } from './layout/OneColumnLayout';
 import Product from './pages/Product';
+import ImmoRegistration from './pages/ImmoRegistration'; // ????? 
 // import { AppShell, Container, MantineProvider } from '@mantine/core';
 // import { Header } from './components/header/Header';
 // import { ImmoCard } from './components/core/ImmoCard';
@@ -38,7 +39,7 @@ function App() {
           <Route path="/product/:id" element={<Product/>}/>
         </Route>
         <Route path="/" element={<OneColumnLayout/>}>
-          <Route path="/prod" element={<Product/>}/>
+          <Route path="/registerImmo" element={<ImmoRegistration/>}/>
         </Route>
       </Routes>
     </BrowserRouter>

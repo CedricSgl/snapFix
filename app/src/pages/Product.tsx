@@ -1,6 +1,6 @@
 import { useParams } from "react-router-dom";
 import { ImmoCard } from "../components/core/ImmoCard";
-import { ContactRegistration } from "../components/core/contactRegistration";
+import { ContactRegistration } from "../components/core/ContactRegistration";
 
 
 function Product(){

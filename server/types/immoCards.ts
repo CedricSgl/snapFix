@@ -3,5 +3,6 @@ export type ImmoCard = {
     id : string,
     price : number,
     imapgePath : string,
-    tag : string[]
+    tag : string[],
+    description: string
 }

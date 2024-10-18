@@ -23,3 +23,23 @@ export async function findOneById(id: number):Promise<ImmoCard |null> {
     }
     return result;
 }
+
+export async function insertOne(newImmo: ImmoCard):Promise<string | null> {
+    try {
+        const result = (await collections?.immoCards?.insertOne(newImmo)) as unknown as string
+        console.log('here we are')
+        console.log(newImmo)
+        if(result/*?.insertedId*/){
+            return result/*.insertedId.toString()*/;
+        }else{
+            console.error("Failed to insert Immo")
+            return null;
+        }
+        
+    } catch (error) {
+        console.error('Error inserting ImmoCard : ', error)
+        throw new Error('Error inserting ImmoCard')
+    }
+
+    ;
+}
