@@ -3,7 +3,7 @@ import { ImmoCard } from "../components/core/ImmoCard";
 import { ContactRegistration } from "../components/core/ContactRegistration";
 
 
-function Product(){
+function Immo(){
     const { id } = useParams();
     console.log('product ',id)
     return (
@@ -14,4 +14,4 @@ function Product(){
     )
 }
 
-export default Product;
+export default Immo;

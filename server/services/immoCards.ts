@@ -1,3 +1,4 @@
+import { ObjectId } from "mongodb";
 import { collections } from "../db/connection";
 import { ImmoCard } from "../types/immoCards";
 
@@ -12,9 +13,9 @@ export async function findAllImmoCards():Promise<ImmoCard[]> {
     return results;
 }
 
-export async function findOneById(id: number):Promise<ImmoCard |null> {
+export async function findOneById(id: ObjectId):Promise<ImmoCard |null> {
     const query = ({id})
-    const result = (await collections?.immoCards?.findOne(query)) as unknown as ImmoCard
+    const result = (await collections?.immoCards?.findOne({_id: id})) as unknown as ImmoCard
     if (!result) {
         console.log(`No record found with id: ${id}`);
         return null;

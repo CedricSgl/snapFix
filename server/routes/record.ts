@@ -1,6 +1,7 @@
 import express, {Request, Response} from "express"
 import { findAllImmoCards, findOneById, insertOne } from "../services/immoCards";
 import { ImmoCard } from "../types/immoCards";
+import { ObjectId } from "mongodb";
 
 // //import db from "../db/connection" // "../db/coneection.js ?"
 
@@ -15,8 +16,8 @@ router.get('/', async (req: Request, res: Response) => {
 
 // //Single record
 router.get('/:id', async (req: Request, res: Response) => {
-    let id = Number(req.params.id);
-    if(!isNaN(id)){
+    let id = new ObjectId(req.params.id);
+    if(/*!isNaN(id)*/ true){
         res.send(await findOneById(id)).status(200)
 
     }
