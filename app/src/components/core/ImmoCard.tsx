@@ -31,7 +31,6 @@ export const AllImmoCard: FC = () => {
 
 
 export function ImmoCard({id} :ImmoId){
-    console.log(id)
     const [property, setProperty] = useState<ImmoProperty | null>(null);
     const [error, setError] = useState<string | null>(null);
     const [loading, setLoading] = useState<boolean>(true);
