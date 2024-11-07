@@ -2,6 +2,7 @@ import express, { Request, Response } from "express";
 import { connectDB } from "./config/database";
 import bodyParser from "body-parser";
 import newsletterForm from "./routes/newsletterForm";
+import users from "./routes/user";
 import cors from "cors";
 
 const app = express();
@@ -22,6 +23,7 @@ app.get("/", (_req, res) => {
 });
 
 app.use("/newsletterForm", newsletterForm);
+app.use("/users", users);
 
 const port = app.get("port");
 export const server = app.listen(port, () =>

@@ -4,7 +4,7 @@ import Request from "../types/Request";
 import { check, validationResult } from "express-validator";
 import HttpStatusCodes from "http-status-codes";
 import NewsletterForm, { TNewsletterForm } from "../models/newsletterForm";
-import { saveNewsletterForm } from "../services/newsletterForm";
+import { getAll, saveNewsletterForm } from "../services/newsletterForm";
 
 const router: Router = Router();
 
@@ -26,6 +26,21 @@ router.post("/",
             const newsletterForm = saveNewsletterForm(newsletterField)
 
             res.json(newsletterForm);
+
+        } catch (err: any) {
+            console.error(err.message);
+            res.status(HttpStatusCodes.INTERNAL_SERVER_ERROR).send("Server Error");
+        }
+
+    })
+
+router.get("/",
+    async (req: Request, res: Response) => {
+        
+        try {
+            getAll().then(function(newsletterFormElement) {
+                res.json(newsletterFormElement);
+            })
 
         } catch (err: any) {
             console.error(err.message);

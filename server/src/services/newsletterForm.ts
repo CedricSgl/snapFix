@@ -13,3 +13,14 @@ export async function saveNewsletterForm(newsletterField: TNewsletterForm) {
         throw new Error("Server error");
     }
 }
+
+export async function getAll() {
+
+    try {
+    
+        return await NewsletterForm.find();
+
+    } catch (err: any) {
+        throw new Error("Server error");
+    }
+}
