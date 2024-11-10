@@ -16,11 +16,10 @@ async function getAll(pagination: Pagination, sort: Sort | null) {
     try {
         const start = pagination.start || DEFAULT_PAGE;
         const size = pagination.size || DEFAULT_SIZE;
-        const offset = (start - 1) * size;
         if(sort) {
-            return await User.find().sort({[`${sort?.id}`]: sort?.desc ? "desc" : "asc"}).skip(offset).limit(pagination.size);    
+            return await User.find().sort({[`${sort?.id}`]: sort?.desc ? "desc" : "asc"}).skip(start).limit(size);    
         }
-        return await User.find().skip(offset).limit(pagination.size);
+        return await User.find().skip(start).limit(size);
     } catch (err: any) {
         throw new Error("Server error");
     }
