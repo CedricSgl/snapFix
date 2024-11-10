@@ -2,7 +2,7 @@ import express, { Request, Response } from "express";
 import { connectDB } from "./config/database";
 import bodyParser from "body-parser";
 import newsletterForm from "./routes/newsletterForm";
-import users from "./routes/user";
+import users from "./routes/user.route";
 import cors from "cors";
 
 const app = express();
