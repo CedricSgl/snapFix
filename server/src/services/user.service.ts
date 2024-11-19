@@ -1,7 +1,8 @@
-import { ValidationError } from "express-validator";
+import { FieldValidationError, ValidationError } from "express-validator";
 import User, { TUser } from "../models/user.model";
 import { Pagination } from "../types/Pagination";
 import { Sort } from "../types/Sort";
+import { errorsCode } from "../utils/error";
 
 type UserUpdate = Partial<{
     firstName: string;
@@ -39,14 +40,16 @@ async function create(user: TUser): Promise<TUser | ValidationError> {
 
         return await userToSave.save();
     } catch (err: any) {
-        /* if (err.errmsg.includes("duplicate key error collection")) {
+        console.log(err)
+        if (err.code = errorsCode.DUPLICATE_KEY_EXCEPTION) {
             return {
                 type: 'field',
                 path: 'emailAddress',
                 msg: "Duplicate object",
-                location: 'body'
+                location: 'body',
+                value: user.emailAddress
             }
-        } */
+        }
         console.log(err)
         throw new Error("Server error");
     }
