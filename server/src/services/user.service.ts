@@ -34,23 +34,26 @@ async function get(id: string) {
     }
 }
 
-async function create(user: TUser): Promise<TUser | ValidationError> {
+async function create(user: TUser): Promise<TUser | ValidationError | Array<ValidationError>> {
     try {
         const userToSave = new User(user);
 
         return await userToSave.save();
     } catch (err: any) {
-        console.log(err)
+        let errors:Array<ValidationError> = [];
         if (err.code = errorsCode.DUPLICATE_KEY_EXCEPTION) {
-            return {
-                type: 'field',
-                path: 'emailAddress',
-                msg: "Duplicate object",
-                location: 'body',
-                value: user.emailAddress
-            }
+            const v = transformKeyValueToErrorFields(err.keyValue);
+            v.errorFields.forEach(errorField => {
+                errors.push({
+                    type: 'field',
+                    path: errorField.name,
+                    msg: "Duplicate object",
+                    location: 'body',
+                    value: errorField.value
+                })
+            });
+            return errors
         }
-        console.log(err)
         throw new Error("Server error");
     }
 }
@@ -86,5 +89,15 @@ async function remove(id: string) {
 function count() {
     return User.countDocuments()
 }
+
+function transformKeyValueToErrorFields(keyValue: any) {
+    return {
+        errorFields: Object.entries(keyValue).map(([key, value]) => ({
+            name: key,
+            value: value
+        }))
+    };
+}
+
 
 export { getAll, get, create, update, remove, count };
