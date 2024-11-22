@@ -11,7 +11,7 @@ type UserUpdate = Partial<{
 }>;
 
 const DEFAULT_SIZE = 10;
-const DEFAULT_PAGE = 1;
+const DEFAULT_PAGE = 0;
 
 async function getAll(pagination: Pagination, sort: Sort | null) {
     try {
@@ -20,7 +20,7 @@ async function getAll(pagination: Pagination, sort: Sort | null) {
         if (sort) {
             return await User.find().sort({ [`${sort?.id}`]: sort?.desc ? "desc" : "asc" }).skip(start).limit(size);
         }
-        return await User.find().skip(start - 1).limit(size);
+        return await User.find().skip(start).limit(size);
     } catch (err: any) {
         throw new Error("Server error");
     }
