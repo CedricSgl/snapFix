@@ -130,6 +130,6 @@ dist
 .pnp.*
 
 
-*/package-lock.json
-immo-app-demo.code-workspace
+**/package-lock.json
+*.code-workspace
 
