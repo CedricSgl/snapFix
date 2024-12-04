@@ -5,6 +5,8 @@ import Product from "./pages/Product";
 import { OneColumnLayout } from "./layout/OneColumnLayout";
 import Users from "./pages/Users";
 import { AuthProvider } from "./context/AuthContext";
+import { AdminDashboard } from "./components/admin/AdminDashboard";
+import { OneColumnAdminLayout } from "./layout/OneColumnAdminLayout";
 
 function App() {
 
@@ -19,6 +21,10 @@ function App() {
           <Route path="/" element={<OneColumnLayout />}>
             <Route path="/product" element={<Product />} />
             <Route path="/users" element={<Users />} />
+            
+          </Route>
+          <Route path="/admin" element={<OneColumnAdminLayout/>}>
+            <Route path="/admin/dash" element={<AdminDashboard />}/>
           </Route>
         </Routes>
       </BrowserRouter>
