@@ -133,3 +133,5 @@ dist
 **/package-lock.json
 *.code-workspace
 
+app/package-lock.json
+server/package-lock.json
