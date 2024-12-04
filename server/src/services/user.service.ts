@@ -11,7 +11,7 @@ type UserUpdate = Partial<{
 }>;
 
 const DEFAULT_SIZE = 10;
-const DEFAULT_PAGE = 1;
+const DEFAULT_PAGE = 0;
 
 async function getAll(pagination: Pagination, sort: Sort | null) {
     try {
