@@ -1,8 +1,8 @@
 {
 
-    "name": "immo_project",
+    "name": "snapfix_project",
     "version": "1.0.0",
-    "description": "Immo Project",
+    "description": "SnapFix Project",
     "repository": {
       "type": "git",
       "url": ""

@@ -1,133 +1,135 @@
-import '@mantine/dates/styles.css'; //if using mantine date picker features
-import 'mantine-react-table/styles.css'; //make sure MRT styles were imported in your app root (once)
-
-import { MantineReactTable, MRT_ColumnDef, MRT_ColumnFiltersState, MRT_PaginationState, MRT_SortingState, useMantineReactTable } from "mantine-react-table";
-import { useEffect, useMemo, useState } from 'react';
+// src/pages/Users.tsx
+import '@mantine/dates/styles.css';
+import 'mantine-react-table/styles.css';
+import { MantineReactTable, MRT_ColumnDef, MRT_ColumnFiltersState, MRT_SortingState, useMantineReactTable } from "mantine-react-table";
+import { useContext, useEffect, useMemo, useState } from 'react';
 import { baseUrl } from '../config';
+import { showNotification } from '@mantine/notifications';
+import { AuthContext } from '../context/AuthContext';
 
-type UserApiResponse = {
-  users: Array<User>;
-    totalResults:  number;
-  };
-  
-  type User = {
-    firstName: string;
-    lastName: string;
-    emailAddress: string;
-  };
+type User = { firstName: string; lastName: string; emailAddress: string; };
 
 function Users() {
 
-    const [data, setData] = useState<User[]>([]);
-    const [isError, setIsError] = useState(false);
-    const [isLoading, setIsLoading] = useState(false);
-    const [isRefetching, setIsRefetching] = useState(false);
-    const [rowCount, setRowCount] = useState(0);
+  // Accès au contexte, en vérifiant qu'il est bien défini
+  const authContext = useContext(AuthContext);
 
-    //table state
-    const [columnFilters, setColumnFilters] = useState<MRT_ColumnFiltersState>(
-        [],
-    );
-    const [globalFilter, setGlobalFilter] = useState('');
-    const [sorting, setSorting] = useState<MRT_SortingState>([]);
-    const [pagination, setPagination] = useState<MRT_PaginationState>({
-        pageIndex: 0,
-        pageSize: 10,
-    });
+  console.log("AuthContext in Users:", authContext);  // Vérifie si le contexte est disponible
 
-    useEffect(() => {
-        const fetchData = async () => {
-          if (!data.length) {
-            setIsLoading(true);
-          } else {
-            setIsRefetching(true);
-          }
-    
-          const url = new URL(
-            `/users`,
-            baseUrl,
-          );
-          url.searchParams.set(
-            'start',
-            `${pagination.pageIndex * pagination.pageSize}`,
-          );
-          url.searchParams.set('size', `${pagination.pageSize}`);
-          url.searchParams.set('filters', JSON.stringify(columnFilters ?? []));
-          url.searchParams.set('globalFilter', globalFilter ?? '');
-          url.searchParams.set('sorting', JSON.stringify(sorting ?? []));
-    
-          try {
-            const response = await fetch(url.href);
-            const json = (await response.json()) as UserApiResponse;
-            setData(json.users);
-            setRowCount(json.totalResults);
-          } catch (error) {
-            setIsError(true);
-            console.error(error);
-            return;
-          }
-          setIsError(false);
-          setIsLoading(false);
-          setIsRefetching(false);
-        };
-        fetchData();
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-      }, [
-        columnFilters, //refetch when column filters change
-        globalFilter, //refetch when global filter changes
-        pagination.pageIndex, //refetch when page index changes
-        pagination.pageSize, //refetch when page size changes
-        sorting, //refetch when sorting changes
-      ]);
-    
-      const columns = useMemo<MRT_ColumnDef<User>[]>(
-        () => [
-          {
-            accessorKey: 'firstName',
-            header: 'First Name',
-          },
-    
-          {
-            accessorKey: 'lastName',
-            header: 'Last Name',
-          },
-          {
-            accessorKey: 'emailAddress',
-            header: 'Email',
-          }
-        ],
-        [],
-      );
-    
-      const table = useMantineReactTable({
-        columns,
-        data,
-        enableRowSelection: true,
-        getRowId: (row) => row.emailAddress,
-        initialState: { showColumnFilters: true },
-        manualFiltering: true,
-        manualPagination: true,
-        manualSorting: true,
-        rowCount,
-        onColumnFiltersChange: setColumnFilters,
-        onGlobalFilterChange: setGlobalFilter,
-        onPaginationChange: setPagination,
-        onSortingChange: setSorting,
-        state: {
-          columnFilters,
-          globalFilter,
-          isLoading,
-          pagination,
-          showAlertBanner: isError,
-          showProgressBars: isRefetching,
-          sorting,
+  if (!authContext) {
+    throw new Error('AuthContext is not available');
+  }
+
+  const { accessToken, refreshAccessToken } = authContext;
+
+  const [data, setData] = useState<User[]>([]);
+  const [isError, setIsError] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
+  const [rowCount, setRowCount] = useState(0);
+  const [isRefetching, setIsRefetching] = useState(false);
+  
+  const [pagination, setPagination] = useState({ pageIndex: 0, pageSize: 10 });
+  const [columnFilters, setColumnFilters] = useState<MRT_ColumnFiltersState>([]);
+  const [globalFilter, setGlobalFilter] = useState<string | null>(null);
+  const [sorting, setSorting] = useState<MRT_SortingState>([]);
+
+  const handleError = (message: string) => {
+    showNotification({ title: 'Erreur', message, color: 'red' });
+  };
+
+  // Fonction pour charger les données des utilisateurs
+  const fetchData = async () => {
+    if (!accessToken) {
+      console.error('No access token available');
+      return;
+    }
+
+    try {
+      const url = new URL(`${baseUrl}/users`);
+      url.searchParams.set('start', `${pagination.pageIndex * pagination.pageSize}`);
+      url.searchParams.set('size', `${pagination.pageSize}`);
+      url.searchParams.set('filters', JSON.stringify(columnFilters ?? []));
+      url.searchParams.set('globalFilter', globalFilter ?? '');
+      url.searchParams.set('sorting', JSON.stringify(sorting ?? []));
+
+      const response = await fetch(url.toString(), {
+        method: 'GET',
+        headers: {
+          'Authorization': `Bearer ${accessToken.trim()}`,
+          'Content-Type': 'application/json'
         },
-        mantineToolbarAlertBannerProps: isError
-          ? { color: 'red', children: 'Error loading data' }
-          : undefined,
+        credentials: 'include', 
       });
-    
-      return <MantineReactTable table={table} />;
+
+      if (!response.ok) {
+        if (response.status === 401) {
+          console.log('Token expired, trying to refresh...');
+          await refreshAccessToken(); // Rafraîchir le token si expiré
+          return fetchData(); // Relancer la requête avec le nouveau token
+        }
+        throw new Error('Erreur de chargement des utilisateurs');
+      }
+
+      const result = await response.json();
+      setData(result.users); 
+      setRowCount(result.totalResults);
+    } catch (error) {
+      setIsError(true);
+      handleError('Échec du chargement des utilisateurs');
+      console.error('Error loading users:', error);
+    } finally {
+      setIsLoading(false);
+      setIsRefetching(false);
+    }
+  };
+
+  useEffect(() => {
+    if (accessToken) {
+      fetchData();
+    }
+  }, [accessToken, pagination, columnFilters, globalFilter, sorting]);
+
+  const columns = useMemo<MRT_ColumnDef<User>[]>(() => [
+    { accessorKey: 'firstName', header: 'First Name' },
+    { accessorKey: 'lastName', header: 'Last Name' },
+    { accessorKey: 'emailAddress', header: 'Email' }
+  ], []);
+
+  const table = useMantineReactTable({
+    columns,
+    data,
+    enableRowSelection: true,
+    getRowId: (row) => row.emailAddress,
+    initialState: { showColumnFilters: true },
+    manualFiltering: true,
+    manualPagination: true,
+    manualSorting: true,
+    rowCount,
+    onColumnFiltersChange: setColumnFilters,
+    onGlobalFilterChange: setGlobalFilter,
+    onPaginationChange: setPagination,
+    onSortingChange: setSorting,
+    state: {
+      columnFilters,
+      globalFilter,
+      isLoading,
+      pagination,
+      showAlertBanner: isError,
+      showProgressBars: isRefetching,
+      sorting,
+    },
+    mantineToolbarAlertBannerProps: isError
+      ? { color: 'red', children: 'Error loading data' }
+      : undefined,
+  });
+
+  return (
+    <div>
+      <MantineReactTable 
+        table={table}
+      />
+    </div>
+  );
 }
 
 export default Users;
