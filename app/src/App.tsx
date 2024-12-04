@@ -1,22 +1,12 @@
-import '@mantine/core/styles.css';
 
-import { AppShell, Container, MantineProvider } from '@mantine/core';
-import { Header } from './components/header/Header';
-import { ImmoCard } from './components/core/ImmoCard';
-/*
-let headerButtons = [
-  {title : 'Products',
-    type : 'default',
-    action : ''
-  },{title : 'Sign in',
-    type : 'default',
-    action : ''
-  },{title : 'Register',
-    type : 'default',
-    action : ''
-  }
-]
-*/
+import "@mantine/core/styles.css";
+import '@mantine/notifications/styles.css';
+
+import { BrowserRouter, Route, Routes } from "react-router-dom";
+import Product from "./pages/Product";
+import { OneColumnLayout } from "./layout/OneColumnLayout";
+import Users from "./pages/Users";
+
 
 /*
 let datas = {
@@ -27,22 +17,17 @@ let datas = {
 }
 */
 function App() {
-
   return (
-    <MantineProvider>
-      <Container>
-            <AppShell
-            header={{ height: 60 }}
-            navbar={{ width: 300, breakpoint: 'sm' }}
-            padding="md"
-          >
+    <BrowserRouter>
+      <Routes>
+        <Route path="/" element={<OneColumnLayout/>}>
+          <Route path="/product" element={<Product/>}/>
+          <Route path="/users" element={<Users/>}/>
+        </Route>
+      </Routes>
+    </BrowserRouter>
+  );
 
-      <Header />
-      <ImmoCard id={'67019a2195b33fac480963b2'} />
-          </AppShell>
-          </Container>
-    </MantineProvider>
-  )
 }
 
-export default App
+export default App;
