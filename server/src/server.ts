@@ -3,6 +3,7 @@ import { connectDB } from "./config/database";
 import bodyParser from "body-parser";
 import newsletterForm from "./routes/newsletterForm";
 import users from "./routes/user.route";
+import buildings from "./routes/building.route"
 import cors from "cors";
 import cookieParser from "cookie-parser";
 import { sign, verify } from 'jsonwebtoken';
@@ -83,6 +84,7 @@ app.post('/refresh-token', (req: Request, res: Response) => {
 // Routes protégées
 app.use("/newsletterForm", verifyAccessToken, newsletterForm);
 app.use("/users", verifyAccessToken, users);
+app.use("/buildings", /* verifyAccessToken, */ buildings)
 
 // Route publique
 app.get("/", (_req, res) => {
