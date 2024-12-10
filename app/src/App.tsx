@@ -5,16 +5,19 @@ import Product from "./pages/Product";
 import { OneColumnLayout } from "./layout/OneColumnLayout";
 import Users from "./pages/Users";
 import { AuthProvider } from "./context/AuthContext";
-import { AdminDashboard } from "./components/admin/AdminDashboard";
 import { OneColumnAdminLayout } from "./layout/OneColumnAdminLayout";
 import Buildings from "./components/admin/Buildings";
 import Admin from "./pages/Admin";
 
+// (AJOUT)
+import { LoginPage } from "./pages/LoginPage";
+import SuperAdminPage from "./pages/SuperAdminPage";
+import AdminPage from "./pages/AdminPage";
+import ClientPage from "./pages/ClientPage";
+import PrestatairePage from "./pages/PrestatairePage";
+
 function App() {
-
-  console.log("App component rendered"); // Ajoute un log pour vérifier que App est bien monté
-
-  
+  console.log("App component rendered");
 
   return (
     <AuthProvider>
@@ -24,11 +27,22 @@ function App() {
             <Route path="/product" element={<Product />} />
             <Route path="/users" element={<Users />} />
             <Route path="/buildings" element={<Buildings />} />
-            
           </Route>
-          <Route path="/admin" element={<OneColumnAdminLayout/>}>
-            <Route path="/admin/dash" element={<Admin />}/>
+
+          {/* Route d'authentification (AJOUT) */}
+          <Route path="/login" element={<LoginPage />} />
+
+          {/* Layout Admin existant */}
+          <Route path="/admin" element={<OneColumnAdminLayout />}>
+            <Route path="/admin/dash" element={<Admin />} />
           </Route>
+
+          {/* Pages par rôle (AJOUT) */}
+          <Route path="/superadmin" element={<SuperAdminPage />} />
+          <Route path="/admin" element={<AdminPage />} />
+          <Route path="/client" element={<ClientPage />} />
+          <Route path="/prestataire" element={<PrestatairePage />} />
+
         </Routes>
       </BrowserRouter>
     </AuthProvider>
