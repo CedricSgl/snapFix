@@ -3,9 +3,9 @@ import '@mantine/dates/styles.css';
 import 'mantine-react-table/styles.css';
 import { MantineReactTable, MRT_ColumnDef, MRT_ColumnFiltersState, MRT_SortingState, useMantineReactTable } from "mantine-react-table";
 import { useContext, useEffect, useMemo, useState } from 'react';
-import { baseUrl } from '../config';
+import { baseUrl } from '../../config';
 import { showNotification } from '@mantine/notifications';
-import { AuthContext } from '../context/AuthContext';
+import { AuthContext } from '../../context/AuthContext';
 
 type Building = { name: string; address: string; responsible: string; };
 
@@ -84,6 +84,7 @@ function Buildings() {
   };
 
   useEffect(() => {
+    document.title = 'Manage Buildings';
     if (accessToken) {
       fetchData();
     }

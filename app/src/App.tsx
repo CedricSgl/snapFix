@@ -7,7 +7,8 @@ import Users from "./pages/Users";
 import { AuthProvider } from "./context/AuthContext";
 import { AdminDashboard } from "./components/admin/AdminDashboard";
 import { OneColumnAdminLayout } from "./layout/OneColumnAdminLayout";
-import Buildings from "./pages/Buildings";
+import Buildings from "./components/admin/Buildings";
+import Admin from "./pages/Admin";
 
 function App() {
 
@@ -26,7 +27,7 @@ function App() {
             
           </Route>
           <Route path="/admin" element={<OneColumnAdminLayout/>}>
-            <Route path="/admin/dash" element={<AdminDashboard />}/>
+            <Route path="/admin/dash" element={<Admin />}/>
           </Route>
         </Routes>
       </BrowserRouter>

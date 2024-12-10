@@ -2,18 +2,27 @@ import { AppShell, Burger, Group, MantineProvider, Skeleton, Title } from '@mant
 import { useDisclosure } from '@mantine/hooks';
 import { Outlet } from 'react-router-dom';
 import { AdminNavBarElements } from '../components/admin/AdminNavBarElements';
+import { useState } from 'react';
+import Buildings from '../components/admin/Buildings';
+import { AdminComponentKeys } from '../types/AdminComponent';
+import { componentMapping } from '../components/admin/ComponentMapping';
 //import { MantineLogo } from '@mantinex/mantine-logo';
+
+// Map des labels de la Navbar à des composants
+
+
 
 export function OneColumnAdminLayout() {
   const [mobileOpened, { toggle: toggleMobile }] = useDisclosure();
   const [desktopOpened, { toggle: toggleDesktop }] = useDisclosure(true);
+  const [activeComponent, setActiveComponent] = useState<AdminComponentKeys>('Notifications');
 
   return (
     <MantineProvider>
     <AppShell
       header={{ height: 60 }}
       navbar={{
-        width: 300,
+        width: 350,
         breakpoint: 'sm',
         collapsed: { mobile: !mobileOpened, desktop: !desktopOpened },
       }}
@@ -28,10 +37,11 @@ export function OneColumnAdminLayout() {
         </Group>
       </AppShell.Header>
       <AppShell.Navbar p="md">
-        <AdminNavBarElements/>
+        <AdminNavBarElements onSelect={setActiveComponent}/>
       </AppShell.Navbar>
       <AppShell.Main>
-        <Outlet/>
+        {/* <Outlet/> */}
+        {componentMapping[activeComponent] || <div>Selectionnez une option</div>}
         </AppShell.Main>
     </AppShell>
     </MantineProvider>
