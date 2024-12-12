@@ -8,9 +8,9 @@ import { showNotification } from '@mantine/notifications';
 import { AuthContext } from '../../context/AuthContext';
 import { Button, Modal } from '@mantine/core';
 import { useDisclosure } from '@mantine/hooks';
-import AddBuilding from './AddBuilding';
+import AddBuilding from './buildings/AddBuilding';
 
-type Building = { name: string; address: string; responsible: string; };
+type Building = { name: string; address: string; responsible: string; _id: string};
 
 function Buildings() {
 
@@ -70,7 +70,7 @@ function Buildings() {
           await refreshAccessToken(); // Rafraîchir le token si expiré
           return fetchData(); // Relancer la requête avec le nouveau token
         }
-        throw new Error('Erreur de chargement des utilisateurs');
+        throw new Error('Erreur de chargement des batiments');
       }
 
       const result = await response.json();
@@ -78,7 +78,7 @@ function Buildings() {
       setRowCount(result.totalResults);
     } catch (error) {
       setIsError(true);
-      handleError('Échec du chargement des utilisateurs');
+      handleError('Échec du chargement des batiments');
       console.error('Error loading buildings:', error);
     } finally {
       setIsLoading(false);
@@ -93,10 +93,59 @@ function Buildings() {
     }
   }, [accessToken, pagination, columnFilters, globalFilter, sorting]);
 
+//TEMP TO ANALYSE
+const handleDelete = async (name: string, id:string) => {
+  if (!accessToken) {
+    console.error('No access token available');
+    return;
+  }
+
+  const confirm = window.confirm(`Êtes-vous sûr de vouloir supprimer "${name}" ?`);
+  if (!confirm) return;
+
+  try {
+    const response = await fetch(`${baseUrl}/buildings/${id}`, {
+      method: 'DELETE',
+      headers: {
+        Authorization: `Bearer ${accessToken.trim()}`,
+        'Content-Type': 'application/json',
+      },
+    });
+
+    if (!response.ok) {
+      if (response.status === 401) {
+        console.log('Token expired, trying to refresh...');
+        await refreshAccessToken();
+        return handleDelete(name, id); // Relancer avec un token rafraîchi
+      }
+      throw new Error('Erreur lors de la suppression');
+    }
+
+    showNotification({
+      title: 'Succès',
+      message: `"${name}" a été supprimé.`,
+      color: 'green',
+    });
+
+    // Actualisez la table après suppression
+    setData((prev) => prev.filter((building) => building.name !== name));
+  } catch (error) {
+    handleError(`Échec de la suppression de "${name}".`);
+    console.error('Error deleting building:', error);
+  }
+};
+
+
+
   const columns = useMemo<MRT_ColumnDef<Building>[]>(() => [
-    { accessorKey: 'name', header: 'Name' },
-    { accessorKey: 'address', header: 'Address' },
-    { accessorKey: 'responsible', header: 'Responsible' }
+    { accessorKey: 'name', header: 'Nom du Batiment' },
+    { accessorKey: 'address', header: 'Adresse' },
+    { accessorKey: 'responsible', header: 'Responsable' },
+    { accessorKey: '_id', header: 'Action', 
+      Cell: ({ row }) => (
+        <Button color='red' onClick={() => handleDelete(row.original.name,row.original._id )}>Delete</Button>
+      )
+    }
   ], []);
 
   const table = useMantineReactTable({

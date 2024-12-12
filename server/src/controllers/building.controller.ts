@@ -63,6 +63,15 @@ async function create(req: Request, res: Response, next: NextFunction) {
     }
 }
 
+async function remove(req: Request, res: Response, next: NextFunction){
+    try {
+        res.json(await buildingsService.remove(req.params.id));
+    } catch (error: any) {
+        console.error(`Error while deleting the building`, error.message)
+        next(error);
+    }
+}
+
 //TODO Update, remove
 
-export {getAll, get, create}
+export {getAll, get, create, remove}
