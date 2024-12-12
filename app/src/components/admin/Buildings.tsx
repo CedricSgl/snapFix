@@ -3,18 +3,18 @@ import '@mantine/dates/styles.css';
 import 'mantine-react-table/styles.css';
 import { MantineReactTable, MRT_ColumnDef, MRT_ColumnFiltersState, MRT_SortingState, useMantineReactTable } from "mantine-react-table";
 import { useContext, useEffect, useMemo, useState } from 'react';
-import { baseUrl } from '../config';
+import { baseUrl } from '../../config';
 import { showNotification } from '@mantine/notifications';
-import { AuthContext } from '../context/AuthContext';
+import { AuthContext } from '../../context/AuthContext';
 
-type User = { firstName: string; lastName: string; emailAddress: string; };
+type Building = { name: string; address: string; responsible: string; };
 
-function Users() {
+function Buildings() {
 
   // Accès au contexte, en vérifiant qu'il est bien défini
   const authContext = useContext(AuthContext);
 
-  console.log("AuthContext in Users:", authContext);  // Vérifie si le contexte est disponible
+  console.log("AuthContext in Buildings:", authContext);  // Vérifie si le contexte est disponible
 
   if (!authContext) {
     throw new Error('AuthContext is not available');
@@ -22,7 +22,7 @@ function Users() {
 
   const { accessToken, refreshAccessToken } = authContext;
 
-  const [data, setData] = useState<User[]>([]);
+  const [data, setData] = useState<Building[]>([]);
   const [isError, setIsError] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [rowCount, setRowCount] = useState(0);
@@ -45,7 +45,7 @@ function Users() {
     }
 
     try {
-      const url = new URL(`${baseUrl}/users`);
+      const url = new URL(`${baseUrl}/buildings`);
       url.searchParams.set('start', `${pagination.pageIndex * pagination.pageSize}`);
       url.searchParams.set('size', `${pagination.pageSize}`);
       url.searchParams.set('filters', JSON.stringify(columnFilters ?? []));
@@ -71,12 +71,12 @@ function Users() {
       }
 
       const result = await response.json();
-      setData(result.users); 
+      setData(result.buildings); 
       setRowCount(result.totalResults);
     } catch (error) {
       setIsError(true);
       handleError('Échec du chargement des utilisateurs');
-      console.error('Error loading users:', error);
+      console.error('Error loading buildings:', error);
     } finally {
       setIsLoading(false);
       setIsRefetching(false);
@@ -84,22 +84,23 @@ function Users() {
   };
 
   useEffect(() => {
+    document.title = 'Manage Buildings';
     if (accessToken) {
       fetchData();
     }
   }, [accessToken, pagination, columnFilters, globalFilter, sorting]);
 
-  const columns = useMemo<MRT_ColumnDef<User>[]>(() => [
-    { accessorKey: 'firstName', header: 'First Name' },
-    { accessorKey: 'lastName', header: 'Last Name' },
-    { accessorKey: 'emailAddress', header: 'Email' }
+  const columns = useMemo<MRT_ColumnDef<Building>[]>(() => [
+    { accessorKey: 'name', header: 'Name' },
+    { accessorKey: 'address', header: 'Address' },
+    { accessorKey: 'responsible', header: 'Responsible' }
   ], []);
 
   const table = useMantineReactTable({
     columns,
     data,
     enableRowSelection: true,
-    getRowId: (row) => row.emailAddress,
+    getRowId: (row) => row.name,
     initialState: { showColumnFilters: true },
     manualFiltering: true,
     manualPagination: true,
@@ -132,4 +133,4 @@ function Users() {
   );
 }
 
-export default Users;
+export default Buildings;

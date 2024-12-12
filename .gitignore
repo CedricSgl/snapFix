@@ -131,6 +131,7 @@ dist
 
 
 **/package-lock.json
+*.code-workspace
 
-immo-app-demo.code-workspace
-
+app/package-lock.json
+server/package-lock.json
