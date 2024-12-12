@@ -1,7 +1,7 @@
 import { Button, FileButton, Group, TextInput, Text } from '@mantine/core';
 import { useForm } from '@mantine/form';
 import { useState } from 'react';
-import { baseUrl } from '../../config';
+import { baseUrl } from '../../../config';
 
 
 export default function AddBuilding(){

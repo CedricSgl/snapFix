@@ -12,6 +12,6 @@ router.post('/'/* , [check("emailAddress", "Please include a valid email").isEma
 
 //router.put('/:id', buildingsController.update);
 
-//router.delete('/:id', buildingsController.remove);
+router.delete('/:id', buildingsController.remove);
 
 export default router;

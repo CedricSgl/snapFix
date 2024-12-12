@@ -77,4 +77,12 @@ function transformKeyValueToErrorFields(keyValue: any) {
     };
 }
 
-export { getAll, get, create, count}
+async function remove(id: string) {
+    try {
+        await Building.findByIdAndDelete({ _id: id });
+    } catch (err: any) {
+        throw new Error("Server error");
+    }
+}
+
+export { getAll, get, create, count, remove}
