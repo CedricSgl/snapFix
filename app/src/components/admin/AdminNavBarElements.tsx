@@ -32,21 +32,12 @@ import { Code, Group } from '@mantine/core';
 import { MantineLogo } from '@mantinex/mantine-logo';
 import classes from './NavbarSimpleColored.module.css';
 import { AdminComponentKeys } from '../../types/AdminComponent';
-
-const data = [
-  { label: 'Notifications', icon: IconBellRinging },
-  { label: 'Billing', icon: IconReceipt2 },
-  { label: 'Security', icon: IconFingerprint },
-  { label: 'SSH Keys', icon: IconKey },
-  { label: 'Databases', icon: IconBuildings },
-  { label: 'Authentication', icon: Icon2fa },
-  { label: 'Other Settings', icon: IconSettings },
-];
+import { componentMapping, componentMappingMenu } from './ComponentMapping';
 
 export function AdminNavBarElements({ onSelect }: { onSelect: (key: AdminComponentKeys) => void }) {
   const [active, setActive] = useState<AdminComponentKeys>('Notifications');
 
-  const links = data.map((item) => (
+  const links = componentMappingMenu.map((item) => (
     <a
       className={classes.link}
       data-active={item.label === active || undefined}
