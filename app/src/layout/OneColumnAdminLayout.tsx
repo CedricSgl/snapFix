@@ -1,9 +1,9 @@
-import { AppShell, Burger, Group, MantineProvider, Skeleton, Title } from '@mantine/core';
+import { AppShell, Burger, Group, MantineProvider, Title } from '@mantine/core';
 import { useDisclosure } from '@mantine/hooks';
-import { Outlet } from 'react-router-dom';
+// import { Outlet } from 'react-router-dom';
 import { AdminNavBarElements } from '../components/admin/AdminNavBarElements';
 import { useState } from 'react';
-import Buildings from '../components/admin/Buildings';
+// import Buildings from '../components/admin/Buildings';
 import { AdminComponentKeys } from '../types/AdminComponent';
 import { componentMapping } from '../components/admin/ComponentMapping';
 //import { MantineLogo } from '@mantinex/mantine-logo';

@@ -20,7 +20,7 @@ import {
   Icon2fa,
   IconBellRinging,
   IconBuildings,
-  IconDatabaseImport,
+  // IconDatabaseImport
   IconFingerprint,
   IconKey,
   IconLogout,

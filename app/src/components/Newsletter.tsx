@@ -10,7 +10,7 @@ export function Newsletter() {
       email:''
     },
     validate: {
-      email: isEmail("Invalid email"),
+      email: (value: string) => (isEmail(value) ? null : "Invalid email"),
     },
   });
   
