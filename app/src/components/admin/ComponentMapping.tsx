@@ -24,7 +24,7 @@ export const componentMapping = {
 };
 
 
-export const componentMappingMenu = [
+export const adminComponentMapping = [
   { label: 'Notifications', icon: IconBellRinging, component: <ComingSoon />},
   { label: 'Dashboard', icon: IconReceipt2, component: <AdminDashboard /> },
   { label: 'Security', icon: IconFingerprint, component: <ComingSoon /> },

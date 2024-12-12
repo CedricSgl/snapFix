@@ -6,6 +6,9 @@ import { useContext, useEffect, useMemo, useState } from 'react';
 import { baseUrl } from '../../config';
 import { showNotification } from '@mantine/notifications';
 import { AuthContext } from '../../context/AuthContext';
+import { Button, Modal } from '@mantine/core';
+import { useDisclosure } from '@mantine/hooks';
+import AddBuilding from './AddBuilding';
 
 type Building = { name: string; address: string; responsible: string; };
 
@@ -124,11 +127,20 @@ function Buildings() {
       : undefined,
   });
 
+  const [opened, { open, close }] = useDisclosure(false);
+
   return (
     <div>
       <MantineReactTable 
         table={table}
       />
+      <Button variant="default" onClick={open}>
+        Ajouter un Batiment
+      </Button>
+
+      <Modal opened={opened} onClose={close} title="Ajouter un Batiment" centered>
+        <AddBuilding />
+      </Modal>
     </div>
   );
 }

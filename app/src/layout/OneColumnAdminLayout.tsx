@@ -3,12 +3,13 @@ import { useDisclosure } from '@mantine/hooks';
 import { AdminNavBarElements } from '../components/admin/AdminNavBarElements';
 import { useState } from 'react';
 import { AdminComponentKeys } from '../types/AdminComponent';
-import { componentMapping } from '../components/admin/ComponentMapping';
+import { adminComponentMapping } from '../components/admin/ComponentMapping';
 
 export function OneColumnAdminLayout() {
   const [mobileOpened, { toggle: toggleMobile }] = useDisclosure();
   const [desktopOpened, { toggle: toggleDesktop }] = useDisclosure(true);
   const [activeComponent, setActiveComponent] = useState<AdminComponentKeys>('Notifications');
+  const activeItem = adminComponentMapping.find((item) => item.label === activeComponent);
 
   return (
     <MantineProvider>
@@ -34,7 +35,7 @@ export function OneColumnAdminLayout() {
       </AppShell.Navbar>
       <AppShell.Main>
         {/* <Outlet/> */}
-        {componentMapping[activeComponent] || <div>Selectionnez une option</div>}
+        {activeItem?.component || <div>Composant non trouvé</div>}
         </AppShell.Main>
     </AppShell>
     </MantineProvider>

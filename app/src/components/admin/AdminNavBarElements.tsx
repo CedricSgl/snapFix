@@ -32,12 +32,12 @@ import { Code, Group } from '@mantine/core';
 import { MantineLogo } from '@mantinex/mantine-logo';
 import classes from './NavbarSimpleColored.module.css';
 import { AdminComponentKeys } from '../../types/AdminComponent';
-import { componentMapping, componentMappingMenu } from './ComponentMapping';
+import { adminComponentMapping } from './ComponentMapping';
 
 export function AdminNavBarElements({ onSelect }: { onSelect: (key: AdminComponentKeys) => void }) {
   const [active, setActive] = useState<AdminComponentKeys>('Notifications');
 
-  const links = componentMappingMenu.map((item) => (
+  const links = adminComponentMapping.map((item) => (
     <a
       className={classes.link}
       data-active={item.label === active || undefined}
